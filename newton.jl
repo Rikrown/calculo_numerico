@@ -1,12 +1,26 @@
-f(x2) = x2^2 + x2 - 6
-df(x2) = 2x2 + 1
+f(x) = exp(-0.1x) + x^2 - 10
+df(x) = -0.1 * exp(-0.1x) + 2x
 
-x1 = 0
-x2 = 100
+a = -2
+b = -3
+k = 0
 
-while abs(x1 - x2) > 0.01
-    global x2 = x1                        
-    global x1 = x2 - (f(x2)/df(x2)) 
+x = (a + b) / 2
+x_novo = x - f(x) / df(x)
+
+while true
+    global k += 1
+    global x_novo = x - f(x) / df(x)
+
+    if abs(x_novo - x) < 10 ^ -5
+        global x = x_novo
+        break
+    end
+
+    global x = x_novo
 end
 
-println(x1)
+valor = f(x)
+println("Raiz: ",x)
+println("Valor: ",valor)
+println("Interações: ",k)

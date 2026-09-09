@@ -1,12 +1,13 @@
-f(x) = x * log10(x) - 1
+f(x) = exp(-0.1x) + x ^ 2 - 10
 
-a = 2
-b = 3
+a = 2.5
+b = 3.5
+k = 0
 
 fa = f(a)
 fb = f(b)
 
-while b - a > 0.01
+while abs(b - a) > 10 ^ -5
     x = (a + b) / 2
     fx = f(x)
     if(fa * fx < 0)
@@ -16,6 +17,12 @@ while b - a > 0.01
         global a = x
         global fa = fx
     end
+    global k += 1
 end
+raiz = (a+b)/2
+valor = f(raiz)
 
 println(a, " ", b)
+println("raiz aproximada: ",raiz)
+println("Valor: ",valor)
+println("Interações: ",k)
