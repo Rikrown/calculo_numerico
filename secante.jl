@@ -1,13 +1,16 @@
-f(x) = x^2 + x - 6
+f(x) = exp(-0.1x) + x^2 - 10
 
-xvelho = 0
-xnovo = 1
-xatual = 1.5
+xvelho = -2
+xnovo = -3
+xatual = -2.5
+k = 0
 
-while abs(xatual - xvelho) > 0.01
+while abs(xatual - xvelho) > 10 ^ -5
     global xnovo = ( xvelho * f(xatual) - xatual * f(xvelho) ) / ( f(xatual) - f(xvelho) )
     global xvelho = xatual
     global xatual = xnovo
+    global k += 1
 end
 
+println("Iterações: ",k)
 println(xnovo)
