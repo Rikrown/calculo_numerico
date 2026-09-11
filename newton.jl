@@ -12,7 +12,7 @@ while true
     global k += 1
     global x_novo = x - f(x) / df(x)
 
-    if abs(x_novo - x) < 10 ^ -5
+    if abs(x_novo - x) < 10 ^ -5 || abs(f(x_novo)) < 10^-5
         global x = x_novo
         break
     end
