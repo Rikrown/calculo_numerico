@@ -5,7 +5,7 @@ xnovo = -3
 xatual = -2.5
 k = 0
 
-while abs(xatual - xvelho) > 10 ^ -5
+while abs(xatual - xvelho) > 10 ^ -5 && abs(f(xatual)) > 10 ^ -5
     global xnovo = ( xvelho * f(xatual) - xatual * f(xvelho) ) / ( f(xatual) - f(xvelho) )
     global xvelho = xatual
     global xatual = xnovo
