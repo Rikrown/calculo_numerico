@@ -1,16 +1,45 @@
-f(x) = exp(-0.1x) + x^2 - 10
+# Nomes:Gabriel Perrout e Vitor de Oliveira Silva
 
-xvelho = -2
-xnovo = -3
-xatual = -2.5
-k = 0
+function secante(f, x0, x1, tol, maxiter)
 
-while abs(xatual - xvelho) > 10 ^ -5 && abs(f(xatual)) > 10 ^ -5
-    global xnovo = ( xvelho * f(xatual) - xatual * f(xvelho) ) / ( f(xatual) - f(xvelho) )
-    global xvelho = xatual
-    global xatual = xnovo
-    global k += 1
+    k = 0
+    x_anterior = x0
+    x_atual = x1
+
+    while k < maxiter
+
+        x_novo = (x_anterior * f(x_atual) - x_atual * f(x_anterior)) /
+                 (f(x_atual) - f(x_anterior))
+
+        k += 1
+
+        if abs(x_novo - x_atual) < tol
+            x_atual = x_novo
+            break
+        end
+
+        x_anterior = x_atual
+        x_atual = x_novo
+    end
+
+    return x_atual, k
 end
 
-println("Iterações: ",k)
-println(xnovo)
+
+# Função do exercício
+f(x) = x^3 - x - 2
+
+# Valores iniciais
+x0 = 1
+x1 = 2
+
+# Tolerância e máximo de iterações
+tol = 10^-5
+maxiter = 100
+
+# Chamada da função
+raiz, iteracoes = secante(f, x0, x1, tol, maxiter)
+
+println("Raiz aproximada: ", raiz)
+println("Iterações: ", iteracoes)
+println("Valor de f(raiz): ", f(raiz))

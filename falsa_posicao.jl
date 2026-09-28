@@ -1,31 +1,46 @@
-f(x) = exp(-0.1x) + x ^ 2 - 10
+# Nomes:Gabriel Perrout e Vitor de Oliveira Silva
+function falsa_posicao(f, a, b, tol, maxiter)
 
-a = -2
-b = -3
-k = 0
+    fa = f(a)
+    fb = f(b)
 
-fa = f(a)
-fb = f(b)
-fx = 100
-
-while abs(fx) > 10 ^ -5
-    x = (a * fb - b * fa) / (fb - fa)
-    global fx = f(x)
-    if(fa * fx < 0)
-        global b = x
-        global fb = fx
-    elseif (fb * fx < 0)
-        global a = x
-        global fa = fx
+    if fa * fb > 0
+        error("A função não possui mudança de sinal no intervalo.")
     end
-    global k += 1
-    println(a, " ", b, " fx=", fx)
+
+    k = 0
+    x = 0.0
+    fx = Inf
+
+    while abs(fx) >= tol && k < maxiter
+
+        x = (a * fb - b * fa) / (fb - fa)
+        fx = f(x)
+
+        if fa * fx < 0
+            b = x
+            fb = fx
+        else
+            a = x
+            fa = fx
+        end
+
+        k += 1
+    end
+
+    return x, k
 end
 
-raiz = (a * fb - b * fa) / (fb - fa)
-valor = f(raiz)
 
-println(a, " ", b)
-println("raiz aproximada: ",raiz)
-println("Valor: ",valor)
-println("Interações: ",k)
+f(x) = x^3 - x - 2
+
+a = 1
+b = 2
+tol = 10^-2
+maxiter = 100
+
+raiz, iteracoes = falsa_posicao(f, a, b, tol, maxiter)
+
+println("Raiz aproximada: ", raiz)
+println("Iterações: ", iteracoes)
+println("Valor de f(raiz): ", f(raiz))

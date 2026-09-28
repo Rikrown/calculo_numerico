@@ -1,3 +1,4 @@
+# Nomes:Gabriel Perrout e Vitor de Oliveira Silva
 # Função que implementa o método iterativo de Jacobi
 #
 # A  -> matriz dos coeficientes
