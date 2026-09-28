@@ -1,28 +1,53 @@
-f(x) = exp(-0.1x) + x ^ 2 - 10
+# Nomes:Gabriel Perrout e Vitor de Oliveira Silva
 
-a = 2.5
-b = 3.5
-k = 0
+function bissecao(f, a, b, tol, maxiter)
 
-fa = f(a)
-fb = f(b)
+    fa = f(a)
+    fb = f(b)
 
-while abs(b - a) > 10 ^ -5
-    x = (a + b) / 2
-    fx = f(x)
-    if(fa * fx < 0)
-        global b = x
-        global fb = fx
-    elseif (fb * fx < 0)
-        global a = x
-        global fa = fx
+    # Verifica se existe mudança de sinal no intervalo
+    if fa * fb > 0
+        error("A função não possui mudança de sinal no intervalo.")
     end
-    global k += 1
-end
-raiz = (a+b)/2
-valor = f(raiz)
 
-println(a, " ", b)
-println("raiz aproximada: ",raiz)
-println("Valor: ",valor)
-println("Interações: ",k)
+    k = 0
+
+    while (b - a) / 2 >= tol && k < maxiter
+
+        x = (a + b) / 2
+        fx = f(x)
+
+        if fa * fx < 0
+            b = x
+            fb = fx
+        else
+            a = x
+            fa = fx
+        end
+
+        k += 1
+    end
+
+    raiz = (a + b) / 2
+
+    return raiz, k
+end
+
+
+# Função do exercício
+f(x) = x^3 - x - 2
+
+# Intervalo
+a = 1
+b = 2
+
+# Tolerância e máximo de iterações
+tol = 10^-5
+maxiter = 100
+
+# Chamada da função
+raiz, iteracoes = bissecao(f, a, b, tol, maxiter)
+
+println("Raiz aproximada: ", raiz)
+println("Iterações: ", iteracoes)
+println("Valor de f(raiz): ", f(raiz))

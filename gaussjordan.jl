@@ -1,27 +1,65 @@
-mat = Float64.([3 2 4 1; 1 1 2 2; 4 3 -2 3])
+# Nomes:Gabriel Perrout e Vitor de Oliveira Silva
 
-for y in 1:3 
-    for x in 1:3
-        if x != y
-        fator = mat[x,y] / mat[y,y]
-        for i in 1:4
-            mat[x,i] = mat[x,i] - mat[y,i]*fator
-        if abs(mat[x,i]) < 10 ^ -5
-            mat[x,i] = 0
+function gauss_pivot(A, b)
+
+    n = length(b)
+
+    # Matriz aumentada
+    mat = Float64.(hcat(A, b))
+
+    # Eliminação gaussiana com pivoteamento parcial
+    for k in 1:n-1
+
+        # Encontra a linha com maior pivô
+        linha_pivo = k
+
+        for i in k+1:n
+            if abs(mat[i,k]) > abs(mat[linha_pivo,k])
+                linha_pivo = i
+            end
         end
-        end 
+
+        # Troca as linhas
+        mat[k, :], mat[linha_pivo, :] =
+            copy(mat[linha_pivo, :]), copy(mat[k, :])
+
+        # Eliminação abaixo do pivô
+        for i in k+1:n
+
+            fator = mat[i,k] / mat[k,k]
+
+            for j in k:n+1
+                mat[i,j] = mat[i,j] - fator * mat[k,j]
+            end
+
         end
     end
-end
 
-for x in 1:3
-    fator = mat[x,x]
-    for i in 1:4
-        mat[x,i] = mat[x,i] / fator
-        if abs(mat[x,i]) < 10^-5
-            mat[x,i] = 0
+    # Substituição regressiva
+    x = zeros(Float64, n)
+
+    for i in n:-1:1
+
+        soma = 0.0
+
+        for j in i+1:n
+            soma += mat[i,j] * x[j]
         end
+
+        x[i] = (mat[i,n+1] - soma) / mat[i,i]
     end
+
+    return x
 end
 
-println(mat)
+
+# Teste
+A = [2 1 -1;
+     -3 -1 2;
+     -2 1 2]
+
+b = [8, -11, -3]
+
+x = gauss_pivot(A, b)
+
+println("Solução: ", x)
