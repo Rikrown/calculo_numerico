@@ -1,26 +1,40 @@
-f(x) = exp(-0.1x) + x^2 - 10
-df(x) = -0.1 * exp(-0.1x) + 2x
+# Nomes:Gabriel Perrout e Vitor de Oliveira Silva
 
-a = -2
-b = -3
-k = 0
 
-x = (a + b) / 2
-x_novo = x - f(x) / df(x)
+function newton(f, df, x0, tol, maxiter)
 
-while true
-    global k += 1
-    global x_novo = x - f(x) / df(x)
+    x = x0
+    k = 0
 
-    if abs(x_novo - x) < 10 ^ -5 || abs(f(x_novo)) < 10^-5
-        global x = x_novo
-        break
+    while k < maxiter
+
+        x_novo = x - f(x) / df(x)
+
+        k += 1
+
+        if abs(x_novo - x) < tol
+            x = x_novo
+            break
+        end
+
+        x = x_novo
     end
 
-    global x = x_novo
+    return x, k
 end
 
-valor = f(x)
-println("Raiz: ",x)
-println("Valor: ",valor)
-println("Interações: ",k)
+
+# Função do exercício
+f(x) = x^3 - x - 2
+df(x) = 3x^2 - 1
+
+# Chamada do método
+x0 = 1.5
+tol = 10^-5
+maxiter = 100
+
+raiz, iteracoes = newton(f, df, x0, tol, maxiter)
+
+println("Raiz aproximada: ", raiz)
+println("Iterações: ", iteracoes)
+println("Valor de f(raiz): ", f(raiz))
