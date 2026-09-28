@@ -1,28 +1,26 @@
-f(x) = exp(-0.1x) + x ^ 2 - 10
+#NOME DA DUPLA: Victor de Oliveira Silva e Gabriel Perrout Gomes de Moura 
 
-a = 2.5
-b = 3.5
-k = 0
-
-fa = f(a)
-fb = f(b)
-
-while abs(b - a) > 10 ^ -5
-    x = (a + b) / 2
-    fx = f(x)
-    if(fa * fx < 0)
-        global b = x
-        global fb = fx
-    elseif (fb * fx < 0)
-        global a = x
-        global fa = fx
+function bissecao(f, a, b, tol, maxiter)
+    k = 0
+    fa = f(a)
+    fb = f(b)
+    
+    while (b-a)/2 > tol && k < maxiter  
+        x = (a + b) / 2
+        fx = f(x)
+        if fa * fx < 0
+            b = x
+            fb = fx
+        elseif fb * fx < 0
+            a = x
+            fa = fx
+        end
+        k += 1
     end
-    global k += 1
+    
+    raiz = (a + b) / 2
+    return raiz, k
 end
-raiz = (a+b)/2
-valor = f(raiz)
 
-println(a, " ", b)
-println("raiz aproximada: ",raiz)
-println("Valor: ",valor)
-println("Interações: ",k)
+raiz, iteracoes = bissecao(x -> x^3 - x - 2, 1, 2, 0.0001, 100)
+println("Raiz: ", raiz, " Iterações: ", iteracoes)
